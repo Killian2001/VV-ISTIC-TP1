@@ -47,9 +47,56 @@ specification? Does this new specification removes the need for testing?
 
 ## Answers
 
-1. 
+1. In July 2024, a bug in the antivirus CrowdStrike Falcon caused important crashes on various information
+    systems running Windows around the world, leading to outages on sometimes critical systems
+    (banks, airports, hospitals...). The bug was triggered by an update of the software, containing an invalid
+    configuration file. The reading of such file was causing an out of bound memory read ; as the
+    software works as a driver for the Windows kernel, it was leading to a kernel crash, causing the
+    infamous "Blue Screen of Death" on affected machines, making them unusables. Althrough the bug had
+    been quickly identified, CrowdStrike deployed a patch and Microsoft created a tool to repair broken
+    machines, the outage lead to a loss of more than 5 billion dollars, as several important companies or
+    services were impacted ; it also damaged the reputation of CrowdStrike. As CrowdStrike's tools are 
+    closed source, the nature of the software component which malfunctionned is not exactly known.
+    This bug can be classified as a local bug, as it is clearly due to an internal malfunctionning of
+    the driver ; however, as it occurs in Windows kernel, its consequences are more important, as the
+    execution of every application of the user space obviously relies on the kernel.
+    However, we can speculate that appropriate programming techniques may had helped to avoid such bug :
+    - use of defensive programming pratices (avoid out-of-bound access of memory by, for example, checking 
+    the acceded addresses, or indices), if such protection is trivial.
+    - unit / integration tests (if it is easy to isolate / make input data for the bugged component);
+    althroug it seems there is no widely used testing solution, a proposal can be found [here](https://github.com/wpdk/wdutf).
+    - use of static analysis tools : language analysis tools such as compiler's warning, `clang-tidy`, or driver
+    analysis tools, such as [SDV](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/static-driver-verifier)... 
+    may detect code patterns which can frequently lead to bugs ; they are however limited to only simple patterns, as
+    the extraction of semantical properties from a program using static analysis is a notoriously undecidable problem.
+    - use of dynamic analysis tools : there is various means to test the code at runtime : of course debuggers,
+    but also memory testing tools, which allows to control program's behaviour over memory, such as [KASAN](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/kasan);
+    fuzzing tools (which test a program by running it and testing its inputs, 
+    [a reasearch example for Windows drivers can be found here](https://research.checkpoint.com/2020/bugs-on-the-windshield-fuzzing-the-windows-kernel/)). Microsoft also proposes a 
+    [driver verifier](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/driver-verifier).
 
-2. 
+    More generally, the use of low-level languages, which allows direct, manual memory handling, can easily lead to such memory
+    corruption bugs, can also be discussed. As we operate at low level, the use of runtime protections, such as
+    garbage collector is not possible ; they can also cause problematic performance overheads. A language such
+    [Rust](https://rust-lang.org) address theses issues, by proposing semantic constraints limiting possibilities
+    to erroneously manipulate the memory, which avoids the use of runtime checks, preferring compile-time
+    checks. Rust programming for Windows is still emerging; [however there is already an official library
+    from Microsoft for Windows driver programming in Rust](https://github.com/microsoft/windows-drivers-rs)
+
+    ***Issue related to CrowdStrike's bug:***
+    https://www.messageware.com/what-caused-the-crowdstrike-outage-a-detailed-breakdown/
+
+2. We use the issue COLLECTION-814, which can be found at the address :
+    https://issues.apache.org/jira/browse/COLLECTIONS-814. This issue is about a discrepency between the
+    `CollectionUtils.removeAll` method and its Javadoc. According to the Javadoc, this method was
+    expected to throw a `NullPointerException` if at least one of its arguments was `null`. However,
+    the reporter noted that this `NullPointerException` was not threw if the first parameter was an empty
+    list and the second parameter was `null`. As this bug was only linked to a missing check in the 
+    function, and not related to an external interaction, it can be classified as a local bug. It
+    had been fixed by the folowing pull request : https://github.com/apache/commons-collections/pull/340,
+    by non-null checks on both parameters, by using the `Objects.requireNonNull` method. The corresponding
+    test method (`testRemoveAll` in `ListUtilsTest.java`) was updated accordingly to the changes, by
+    adding two tests, one for each parameter, using `assertThrow`.
 
 3. 
 
