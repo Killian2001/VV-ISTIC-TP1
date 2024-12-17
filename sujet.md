@@ -113,6 +113,30 @@ specification? Does this new specification removes the need for testing?
     help developpers using AWS to test their application using chaos engineering 
     ([Fault Injection Service](https://aws.amazon.com/fis/)).
 
-4. 
+4. Main benefits of a formal specification for WASM are the following :
+    - Portability : the language semantics, i.e. the mathematical model that 
+    describes the behaviour of the language, gives precise guidelines to web
+    browser developer on what each construct of the language is supposed to do;
+    therefore, it can avoid the language to have different behaviours between
+    web browsers.
+    - Safety : following the proposed semantics of the language, the paper 
+    proposes type rules, which can be used to validate programs, and ensure
+    that no undefined behaviour (e.g. illegal memory accesses...) will occur.
+    Authors justify the need of such validation by the fact WASM code may be
+    loaded from untrusted sources.
+    - Verificability : such semantics permit the creation of tools that reason
+    over WASM programs, facilitating formal verifications over WASM programs.
+
+    Hovewer, such semantics does not relieve the need to do testings over WASM programs :
+    first, WASM semantics does describes precisely the behaviour of the *language*, not
+    the behaviour of *programs* written in WASM, especially as expected behaviour of
+    such program must be first defined by developers before being tested or proven. Especially,
+    even if formal raesoning is still possible on WASM programs, it may be difficult
+    to do in practice, and it may not take account global bugs, induced by dependancies
+    or execution environment ; an exhaustive testing campaign may help to detect bug
+    with more reasonible efforts. WASM semantics also does not dispense validation
+    of the program : the program may behave correctly following a given formal
+    specification, but the specification may not follow what is expected by the
+    client.
 
 5. 
