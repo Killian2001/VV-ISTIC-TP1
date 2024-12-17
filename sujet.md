@@ -47,7 +47,7 @@ specification? Does this new specification removes the need for testing?
 
 ## Answers
 
-1. In July 2024, a bug in the antivirus CrowdStrike Falcon caused important crashes on various information
+1. ([Source here](https://www.messageware.com/what-caused-the-crowdstrike-outage-a-detailed-breakdown/)) In July 2024, a bug in the antivirus CrowdStrike Falcon caused important crashes on various information
     systems running Windows around the world, leading to outages on sometimes critical systems
     (banks, airports, hospitals...). The bug was triggered by an update of the software, containing an invalid
     configuration file. The reading of such file was causing an out of bound memory read ; as the
@@ -83,9 +83,6 @@ specification? Does this new specification removes the need for testing?
     checks. Rust programming for Windows is still emerging; [however there is already an official library
     from Microsoft for Windows driver programming in Rust](https://github.com/microsoft/windows-drivers-rs)
 
-    ***Issue related to CrowdStrike's bug:***
-    https://www.messageware.com/what-caused-the-crowdstrike-outage-a-detailed-breakdown/
-
 2. We use the issue COLLECTION-814, which can be found at the address :
     https://issues.apache.org/jira/browse/COLLECTIONS-814. This issue is about a discrepency between the
     `CollectionUtils.removeAll` method and its Javadoc. According to the Javadoc, this method was
@@ -98,7 +95,23 @@ specification? Does this new specification removes the need for testing?
     test method (`testRemoveAll` in `ListUtilsTest.java`) was updated accordingly to the changes, by
     adding two tests, one for each parameter, using `assertThrow`.
 
-3. 
+3.  Chaos engineering experiment primary's goal is to disrupt services and ensure that Netflix stays
+    still available for a maximum of users. Chaos experiment relies on the idea that Netflix services
+    follow, in normal operation, what the authors call a "steady state", which is made of various metrics measured
+    during regular operation of the system. These metrics are chosen to exprimate the availability of the service to
+    users : especially, "stream starts per seconds" (SPS) is a widely used metric. Chaos experiments consist
+    to cause various failures on the system (latency between services, redirections over an Amazon region
+    to simulate a region failure, termination of a machine...), runned automatically in production, and to compare
+    the behaviour of availability metrics between the experiment state and the steady state ; during
+    experiments, more local metrics may also be looked, such as request latencies or CPU usage, to see
+    how the system functionning is altered. To do the comparison, geographical regions, groups of users...
+    may or may not be selected for the chaos experiment.
+
+    Since Netflix had first proposed chaos engineering, other companies adopted it : this the case of
+    Amazon, which also uses chaos engineering since at least 2020 for Prime Video 
+    ([source here](https://aws.amazon.com/fr/blogs/opensource/building-resilient-services-at-prime-video-with-chaos-engineering/)). They even propose a tool to
+    help developpers using AWS to test their application using chaos engineering 
+    ([Fault Injection Service](https://aws.amazon.com/fis/)).
 
 4. 
 
