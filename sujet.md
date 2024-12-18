@@ -139,4 +139,24 @@ specification? Does this new specification removes the need for testing?
     specification, but the specification may not follow what is expected by the
     client.
 
-5. 
+5.  In his paper, Watt proposed a mechanized specification of WASM. Through the paper,
+    it appears that this specification is more natural than the original specification
+    to do proofs: the paper qualifies original semantics as "pen and paper formal specification",
+    meaning that such semantics are may be more trivial to write on paper, but does not allow
+    easy proofs. The mechanized semantics proposed by Conrad improved original semantics by
+    completing some unspecified parts of it (especially environment interactions) and
+    the lack of proof for type system properties. By reformalizing the semantics, the author
+    proven these properties, not without finding a pitfall in trap instructions specification,
+    quickly fixed due to the similarity between original and mechanized semantics (qualified as
+    "eyeball closeness" by the author, referring to previous works).
+
+    The mechanized specification lead the author to create a verified type checker and
+    a verified interpreter, later validated using official WASM conformance tests, and
+    generated tests from C program, in order to tests derived programs over "real-world"
+    WASM code.
+
+    As for the original semantics, proof over WASM semantics does not remove the need
+    for testing programs, as the proof only ensures that no undefined behaviour occurs
+    during execution of WASM programs. Even a proven WASM program using such semantics
+    may suffer from complex bugs, related to the execution environment: from software,
+    such as the web browser, the operating system, or even hardware.
