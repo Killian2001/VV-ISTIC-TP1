@@ -83,6 +83,8 @@ specification? Does this new specification removes the need for testing?
     checks. Rust programming for Windows is still emerging; [however there is already an official library
     from Microsoft for Windows driver programming in Rust](https://github.com/microsoft/windows-drivers-rs)
 
+***
+
 2. We use the issue COLLECTION-814, which can be found at the address :
     https://issues.apache.org/jira/browse/COLLECTIONS-814. This issue is about a discrepency between the
     `CollectionUtils.removeAll` method and its Javadoc. According to the Javadoc, this method was
@@ -94,6 +96,8 @@ specification? Does this new specification removes the need for testing?
     by non-null checks on both parameters, by using the `Objects.requireNonNull` method. The corresponding
     test method (`testRemoveAll` in `ListUtilsTest.java`) was updated accordingly to the changes, by
     adding two tests, one for each parameter, using `assertThrow`.
+
+***
 
 3.  Chaos engineering experiment primary's goal is to disrupt services and ensure that Netflix stays
     still available for a maximum of users. Chaos experiment relies on the idea that Netflix services
@@ -112,6 +116,8 @@ specification? Does this new specification removes the need for testing?
     ([source here](https://aws.amazon.com/fr/blogs/opensource/building-resilient-services-at-prime-video-with-chaos-engineering/)). They even propose a tool to
     help developpers using AWS to test their application using chaos engineering 
     ([Fault Injection Service](https://aws.amazon.com/fis/)).
+
+***
 
 4. Main benefits of a formal specification for WASM are the following :
     - Portability : the language semantics, i.e. the mathematical model that 
@@ -138,6 +144,8 @@ specification? Does this new specification removes the need for testing?
     of the program : the program may behave correctly following a given formal
     specification, but the specification may not follow what is expected by the
     client.
+
+***
 
 5.  In his paper, Watt proposed a mechanized specification of WASM. Through the paper,
     it appears that this specification is more natural than the original specification
